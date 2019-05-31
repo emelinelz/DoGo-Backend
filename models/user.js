@@ -1,20 +1,29 @@
-var mongoose = require('mongoose');
+const bd = require('./bd');
 
-var DogSchema = mongoose.Schema(
+var DogSchema = bd.mongoose.Schema(
   {
     nom:String,
-    gender: Number,
+    gender: String,
     image:String
   }
 )
 
 
-var UserSchema = mongoose.Schema({
+var UserSchema = bd.mongoose.Schema({
     username : String,
     email: String,
     password: String,
     description: String,
-    Dog:[DogSchema]
-   });
+    token: String,
+    salt: String,
+    dog1:String,
+    dog1gender:String,
+    avatar:String,
+    dog:[DogSchema],
+});
 
-module.exports = mongoose.model('users', UserSchema);
+
+
+var userModel= bd.mongoose.model('users', UserSchema);
+module.exports = userModel
+

@@ -1,18 +1,23 @@
-var mongoose = require('mongoose');
+const bd = require('./bd');
 
 
-var PromenadeSchema = mongoose.Schema({
-    userId : String,
-    userName: String,
+var PromenadeSchema = bd.mongoose.Schema({
+   user: {
+      type: bd.mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
     ville:String,
+    cp:String,
     adress:String,
-    date: Date,
-    duree: Number,
+    date: String,
+    heure:String,
+    duree: String,
     option:String,
-    dog:Array,
-    message:Array
-    
+    message:Array,
+    latitude:Number,
+    longitude:Number,
    
    });
 
-module.exports = mongoose.model('Promenade', PromenadeSchema);
+var promenadeModel= bd.mongoose.model('promenade', PromenadeSchema);
+module.exports = promenadeModel
