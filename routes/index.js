@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require('../models/user');
-var promenadeModel= require('../models/promenade')
+var promenadeModel= require('../models/promenade');
 
 var uid2 = require("uid2");
 const SHA256 = require("crypto-js/sha256");
@@ -19,8 +19,6 @@ cloudinary.config({
   api_key: '656298461962811',
   api_secret: 'H5pBel985fgWQptdjdcWFX8xWv4'
 });
-
-
 
 
 
@@ -98,12 +96,9 @@ router.post('/signup', function(req, res, next) {
     avatar:req.body.avatar,
     // CREATION ET ASSIGNATION DU TOKEN
     token: uid2(32),
-
     // ASSIGNATION DU SEL AU USER
     salt: salt,
-
     // HASHAGE ET SAUBEGARDE DU PASSWORD HASHE AVEC LE SEL
-
 
   });
   console.log("SALT", salt);
@@ -115,41 +110,43 @@ router.post('/signup', function(req, res, next) {
   });
 });
 
+router.get('/promenades', function(req, res, next) {
+  console.log('Promenadeslist Loading...');
+  promenadeModel.find({}).populate('userId').exec(function(error, data) {
+    if (error) {
+      console.log(error);
+    } else {
+    res.json({result: true, data});
+    console.log(data)
+  }});
+
+});
 
 router.post('/add_promenade',function(req,res,next){
   console.log('Add promenade ing...');
   const newPromenade = new promenadeModel({
-    userId :req.body.user_Id,
-    ville:req.body.ville,
-    cp:req.body.cp,
+    userId:req.body.userId,
+    ville:'Paris',
+    cp:'75001',
     adress:req.body.adress,
     date: req.body.date,
-    heure:req.body.heure,
+    heure:'1h',
     duree: req.body.duree,
-    option:req.body.option,
-    message:req.body.message,
-    latitude:req.body.latitude,
-    longitude:req.body.longitude,
+    warning:req.body.warning,
+    message:[],
+    latitude:123,
+    longitude:123,
+    participant:2,
+    ditance:0.5,
+    description:req.body.description
+ 
   });
   newPromenade.save(function(error, promenade) {
-  console.log(error)
+  console.log('PROMENADE SAVED',promenade)
     res.json({result: true, promenade});
   });
 })
 
-router.get('/signin',function(req,res,next){
-  User.findOne({ email: req.body.email }).exec(function (err, user) {
-
-    var hash = SHA256(req.body.password + user.salt).toString(encBase64);
-    
-    if (hash === user.password) {
-      res.json({ login: true, user });
-    } else {
-      res.json({ login: false });
-    }
-  
-  });
-})
 
 router.post('/dog', function(req, res, next) {
   userModel.findById(req.body.id, function(err, user) {

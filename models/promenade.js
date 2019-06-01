@@ -2,9 +2,9 @@ const bd = require('./bd');
 
 
 var PromenadeSchema = bd.mongoose.Schema({
-   user: {
+   userId: {
       type: bd.mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
     },
     ville:String,
     cp:String,
@@ -12,11 +12,13 @@ var PromenadeSchema = bd.mongoose.Schema({
     date: String,
     heure:String,
     duree: String,
-    option:String,
+    warning:String,
     message:Array,
     latitude:Number,
     longitude:Number,
-   
+    participant:Number,
+    distance:Number,
+    description:String
    });
 
 var promenadeModel= bd.mongoose.model('promenade', PromenadeSchema);

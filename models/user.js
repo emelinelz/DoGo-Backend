@@ -20,6 +20,7 @@ var UserSchema = bd.mongoose.Schema({
     dog1gender:String,
     avatar:String,
     dog:[DogSchema],
+   
 });
 
 
