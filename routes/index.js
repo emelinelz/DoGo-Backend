@@ -69,7 +69,7 @@ router.post('/upload', function(req, res, next) {
             function(error, result){
               console.log(result)
               const fs = require('fs');
-              // fs.unlinkSync(photoPath)
+              fs.unlinkSync(photoPath);
               res.json(result.secure_url);
             }
           )
@@ -110,7 +110,7 @@ router.post('/signup', function(req, res, next) {
   });
 });
 
-router.get('/promenades', function(req, res, next) {
+router.get('/list_promenade', function(req, res, next) {
   console.log('Promenadeslist Loading...');
   promenadeModel.find({}).populate('userId').exec(function(error, data) {
     if (error) {
