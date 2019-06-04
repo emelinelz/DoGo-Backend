@@ -122,6 +122,18 @@ router.get('/list_promenade', function(req, res, next) {
 
 });
 
+router.get('/select_promenade', function(req, res, next) {
+  console.log('Select promenade Loading...');
+  promenadeModel.findOne({_id:req.query._id}).populate('userId').exec(function(error, data) {
+    if (error) {
+      console.log(error);
+    } else {
+    res.json({result: true, data});
+    console.log(data)
+  }});
+
+});
+
 router.post('/add_promenade',function(req,res,next){
   console.log('Add promenade ing...');
   const newPromenade = new promenadeModel({
