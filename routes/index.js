@@ -122,6 +122,17 @@ router.get('/list_promenade', function(req, res, next) {
 
 });
 
+router.get('/mes_promenades', function(req, res, next) {
+  console.log('MES Promenadeslist Loading...');
+  promenadeModel.find({userId:req.query.userId}).populate('userId').exec(function(error, data) {
+    if (error) {
+      console.log(error);
+    } else {
+    res.json({result: true, data});
+    console.log(data)
+  }});
+
+});
 router.get('/select_promenade', function(req, res, next) {
   console.log('Select promenade Loading...');
   promenadeModel.findOne({_id:req.query._id}).populate('userId').exec(function(error, data) {
