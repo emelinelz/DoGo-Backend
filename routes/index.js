@@ -159,8 +159,8 @@ router.post('/add_promenade',function(req,res,next){
     message:[],
     latitude:123,
     longitude:123,
-    participant:2,
-    ditance:0.5,
+    participant:Math.floor(Math.random() * 5),
+    distance:Math.random().toFixed(1),
     description:req.body.description
  
   });

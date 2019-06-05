@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 var options = { connectTimeoutMS: 5000, useNewUrlParser: true }
 mongoose.connect(
-"mongodb+srv://dogo:dogo@cluster0-vjrqm.mongodb.net/Dogo?retryWrites=true",
+"mongodb+srv://dogo:dogo@cluster0-zwqkq.mongodb.net/DoGo?retryWrites=true&w=majority",
   options,
   function(error){
     if (error) {
