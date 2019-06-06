@@ -82,8 +82,6 @@ router.post('/upload', function(req, res, next) {
 
 router.post('/signup', function(req, res, next) {
   console.log('Signup is running...');
-
-
   // CREATION DU SEL
   var salt = uid2(32);
 
@@ -133,6 +131,7 @@ router.get('/mes_promenades', function(req, res, next) {
   }});
 
 });
+
 router.get('/select_promenade', function(req, res, next) {
   console.log('Select promenade Loading...');
   promenadeModel.findOne({_id:req.query._id}).populate('userId').exec(function(error, data) {
@@ -149,17 +148,15 @@ router.post('/add_promenade',function(req,res,next){
   console.log('Add promenade ing...');
   const newPromenade = new promenadeModel({
     userId:req.body.userId,
-    ville:'Paris',
-    cp:'75001',
-    adress:req.body.adress,
+    adress:req.body.adress.substring(0,req.body.adress.length-7),
     date: req.body.date,
     heure:'1h',
     duree: req.body.duree,
     warning:req.body.warning,
     message:[],
-    latitude:123,
-    longitude:123,
-    participant:Math.floor(Math.random() * 5),
+    latitude:req.body.lat,
+    longitude:req.body.lng,
+    participant:[],
     distance:Math.random().toFixed(1),
     description:req.body.description
  
@@ -171,25 +168,45 @@ router.post('/add_promenade',function(req,res,next){
 })
 
 
-router.post('/dog', function(req, res, next) {
-  userModel.findById(req.body.id, function(err, user) {
-    user.dog.push({
-      nom:req.body.nom,
-      gender: req.body.gender,
-      image:req.body.image
+router.post('/add_participant', function(req, res, next) {
+  promenadeModel.findById(req.body.promenadeId, function(err, promenade) {
+    promenade.participant.push({
+      userId:req.body.userId,
+      avatar: req.body.avatar,
+      username:req.body.username
     })
 
-    user.save(function(err, user) {
+    promenade.save(function(err, promenade) {
       if (err) {
         console.log(err);
 
       } else {
-        console.log("newdog", user);
+        console.log("newparticipant", promenade);
       }
     })
   })
 
-  res.render('newdog');
+  res.json({result: true, promenade});
 });
+
+  router.delete('/delete_participant/:promenadeId',function(req,res,next){
+    promenadeModel.update({_id:req.params.promenadeId},{ $pull: { participant: { userId: req.body.userId} } },
+      { multi: true },function(err,promenade){
+ 
+          if(err){
+            console.log(err);
+            return res.send(err);
+           }
+            return res.json(promenade);
+        }
+      )
+    });
+      
+     
+
+  
+  
+
+
 
 module.exports = router;

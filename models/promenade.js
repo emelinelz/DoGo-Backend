@@ -6,8 +6,6 @@ var PromenadeSchema = bd.mongoose.Schema({
       type: bd.mongoose.Schema.Types.ObjectId,
       ref: "users",
     },
-    ville:String,
-    cp:String,
     adress:String,
     date: String,
     heure:String,
@@ -16,7 +14,7 @@ var PromenadeSchema = bd.mongoose.Schema({
     message:Array,
     latitude:Number,
     longitude:Number,
-    participant:Number,
+    participant:Array,
     distance:Number,
     description:String
    });
